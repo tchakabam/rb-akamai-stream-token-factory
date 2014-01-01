@@ -25,34 +25,34 @@ class AkamaiStreamingTokenGenerator
 		@user_pwd = user_pwd
 		@time_stamp = time_stamp
 		@time_window = time_window	
-	        @debug = debug
-	
-	        log "path: " + @user_path
-	        log "profile: " + @user_profile
-	        log "password: " + @user_pwd
-	        log "time_stamp: " + @time_stamp.to_s
-	        log "time_window: " + @time_window.to_s
-	
+		@debug = debug
+		
+		log "path: " + @user_path
+		log "profile: " + @user_profile
+		log "password: " + @user_pwd
+		log "time_stamp: " + @time_stamp.to_s
+		log "time_window: " + @time_window.to_s
+		
 		@CHOICES64 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't','u', 'v', 'w', 'x', 'y', 'z','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T','U', 'V', 'W', 'X', 'Y', 'Z','0', '1', '2', '3', '4', '5', '6', '7', '8', '9','.', '/']
 			
-	       	@ROT_BASE = 9
-	        @ENCRYPTED_LEN = 13;
-	
-	        #Flag constants;
-	        @FLAG_IP       = 1
-	        @FLAG_PATH     = 2
-	        @FLAG_PROFILE  = 4
-	        @FLAG_PASSWD   = 8
-	        @FLAG_WINDOW   = 16
-	        @FLAG_PAYLOAD  = 32
-	        @FLAG_DURATION = 64
-	
-	        @flags = 0
-	        @flags = @flags | @FLAG_PATH
-	        @flags = @flags | @FLAG_PROFILE
-	        @flags = @flags | @FLAG_PASSWD
-	        @flags = @flags | @FLAG_WINDOW
-	        @flags = @flags | @FLAG_DURATION
+		@ROT_BASE = 9
+		@ENCRYPTED_LEN = 13;
+		
+		#Flag constants;
+		@FLAG_IP       = 1
+		@FLAG_PATH     = 2
+		@FLAG_PROFILE  = 4
+		@FLAG_PASSWD   = 8
+		@FLAG_WINDOW   = 16
+		@FLAG_PAYLOAD  = 32
+		@FLAG_DURATION = 64
+		
+		@flags = 0
+		@flags = @flags | @FLAG_PATH
+		@flags = @flags | @FLAG_PROFILE
+		@flags = @flags | @FLAG_PASSWD
+		@flags = @flags | @FLAG_WINDOW
+		@flags = @flags | @FLAG_DURATION
 	end
 
 	def generate_type_d
