@@ -57,59 +57,59 @@ class AkamaiStreamingTokenGenerator
 
 	def generate_type_d
 
-	        #Create MD5 digest
+		#Create MD5 digest
 		digest = Digest::MD5.new
 	
-	        #Build time-window-based hash
-	        time_str = ""
+		#Build time-window-based hash
+		time_str = ""
 		time_str << int32_to_custom_base64_str(@time_stamp, 1)
-	        time_str << '-'
+		time_str << '-'
 		time_str << int32_to_custom_base64_str(@time_window, 1)
 		time_str = fix_slash time_str
 	
 		log "Time-Window hash: " + time_str
 	
-	        #Duration string
+	    #Duration string
 		duration_str = int32_to_custom_base64_str(@time_window, 1)
 	
-	        log "Duration hash: " + duration_str
+		log "Duration hash: " + duration_str
 	
-	        #Create digest buffer
+	    #Create digest buffer
 		md5_str = @user_path << time_str << @user_profile << @user_pwd << duration_str
 	
-	        log "MD5 buffer: " + md5_str
+		log "MD5 buffer: " + md5_str
 	
 		md5_str = digest.hexdigest(md5_str)
 	
-	        log "MD5 digested: " + md5_str
+		log "MD5 digested: " + md5_str
 	
 		#Convert hex codes to characters
-	        digest_64 = ""
-	        i = 0
-	        while i < md5_str.length do
-			hexstr = md5_str.slice(i, 2) #slice next two chars
-			hexval = hexstr.to_i(16)
-			    log "ASCII code: " + hexval.to_s + " => " + hexval.chr
-			digest_64 << hexval.chr #append ASCII caracter of value
-			i += 2
-	        end
-	
-	        log "Converted to characters: " + digest_64
-	
-	        #Append the password
-	        digest_64 << @user_pwd  
-	
-	        log "Password appended: " + digest_64
+        digest_64 = ""
+        i = 0
+        while i < md5_str.length do
+		hexstr = md5_str.slice(i, 2) #slice next two chars
+		hexval = hexstr.to_i(16)
+		log "ASCII code: " + hexval.to_s + " => " + hexval.chr
+		digest_64 << hexval.chr #append ASCII caracter of value
+		i += 2
+        end
+
+		log "Converted to characters: " + digest_64
+
+        #Append the password
+        digest_64 << @user_pwd  
+
+        log "Password appended: " + digest_64
 	
 	        #MD5 that again
 	 	md5_str = digest.hexdigest(digest_64)
 	
-	        log "MD5 digested (again): " + md5_str
+	    log "MD5 digested (again): " + md5_str
 	
 	        #Encode the MD5 in base64
 	 	digest_64 = encode_md5 md5_str
 	
-	        log "Akamai 64 encoded: " + digest_64
+	    log "Akamai 64 encoded: " + digest_64
 	
 	 	payload = ''
 	 	tokenType = 'd'
@@ -117,9 +117,9 @@ class AkamaiStreamingTokenGenerator
 	        #Build the actual token
 	 	token = build_token(tokenType, @flags, digest_64, time_str, @user_profile, payload, duration_str)
 	
-	        log "Built token: " + token
-	
-	        token
+        log "Built token: " + token
+
+        token
 	end
 
 	#Build token from buffers.  Note, newFlags is not used.
@@ -270,7 +270,7 @@ class AkamaiStreamingTokenGenerator
 	#Takes the MD5 digest from PHP and encodes it tobe compatible with Java generated token. 
     	def encode_md5 md5_digested
         	digest64 = ""
-		i = 0
+			i = 0
         	while i < md5_digested.length do
 			hexstr = md5_digested.slice(i, 2)
 			hexval = hexstr.to_i(16)
@@ -317,16 +317,16 @@ class AkamaiStreamingTokenGenerator
 	def int32_to_custom_base64_str(input, min_value)
 		#log input
 
-	        val = input
-	        result = ""
+        val = input
+        result = ""
 
-	        while val > 63 do
-			result << @CHOICES64[val % 64]
-			val = val / 64
-	        end
+        while val > 63 do
+		result << @CHOICES64[val % 64]
+		val = val / 64
+        end
 
-	        #Pick up last bit.
-	        result << @CHOICES64[val % 64]
+        #Pick up last bit.
+        result << @CHOICES64[val % 64]
 
 		#Pad result to minimum length
 		while result.length < min_value do
@@ -344,7 +344,7 @@ if __FILE__ == $0
 	password = "mypassword"
 	time = Time.now.to_i #seconds
 	#time = 1384348052
-	    window = 86400 #seconds (here: 24 hours)
+	window = 86400 #seconds (here: 24 hours)
 
 	gen = AkamaiStreamingTokenGenerator.new(path, profile, password, time, window, true)
 	token = gen.generate_type_d
